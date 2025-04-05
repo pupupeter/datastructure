@@ -1,4 +1,11 @@
 # datastructure
+
+# project proposal  
+
+Midterm:
+
+Final project:
+
 # AI Professor Debate System (Based on AutoGen/SmolEAgent)
 
 ## 1. Introduction
