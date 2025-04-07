@@ -1,5 +1,8 @@
 # datastructure
 
+
+[한국어](https://github.com/pupupeter/datastructure/blob/main/readmekorean.md)
+
 # project proposal  
 
 Midterm:https://youtu.be/2sRbDFhY628
