@@ -2,7 +2,7 @@
 
 # project proposal  
 
-Midterm:
+Midterm:https://youtu.be/2sRbDFhY628
 
 Final project:
 
