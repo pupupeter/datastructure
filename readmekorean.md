@@ -39,6 +39,7 @@
 
 5. **최종 평가**  
    AI 심판이 주장들의 내용 품질과 설득력을 평가합니다.
+![image](https://github.com/user-attachments/assets/d3c3f548-2f9f-44a2-9237-4f2b200a3b2a)
 
 ## 4. 잠재적 응용
 - 학술 토론
