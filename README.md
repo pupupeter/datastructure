@@ -6,6 +6,7 @@
 # project proposal  
 
 Midterm:https://youtu.be/2sRbDFhY628
+
 Midterm2:https://youtu.be/AMGhJTg5nto
 
 
