@@ -9,6 +9,7 @@ Midterm:https://youtu.be/2sRbDFhY628
 
 Midterm2:https://youtu.be/AMGhJTg5nto
 
+#### 因為程式碼可能秀的不是很清楚，所以給大家連結https://github.com/pupupeter/datastructure/blob/main/%E6%9C%80%E6%96%B0%E7%9A%84%E9%80%B2%E5%BA%A60413.py
 
 Final project:
 
