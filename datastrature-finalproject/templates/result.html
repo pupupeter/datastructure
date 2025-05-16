@@ -1,0 +1,314 @@
+
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>辯論結果</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #9acd32; /* Yellow-green */
+            --primary-light: #c1e065;
+            --primary-dark: #789e25;
+            --accent: #556b2f; /* Darker yellow-green */
+            --light: #f8ffe6;
+            --dark: #2c3e0e;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .header h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        
+        .dynamic-message {
+            background-color: var(--primary-light);
+            color: var(--dark);
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .message-content {
+            display: flex;
+            align-items: center;
+            animation: scrollMessage 20s linear infinite;
+            white-space: nowrap;
+        }
+        
+        @keyframes scrollMessage {
+            0% {
+                transform: translateX(100%);
+            }
+            100% {
+                transform: translateX(-100%);
+            }
+        }
+        
+        .message-icon {
+            margin-right: 10px;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.2);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+        
+        .result-container {
+            padding: 30px;
+        }
+        
+        .result-box {
+            background-color: #f9f9f9;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 30px;
+            max-height: 500px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            font-family: 'Noto Sans TC', monospace;
+            line-height: 1.6;
+        }
+        
+        .result-box::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        .result-box::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 4px;
+        }
+        
+        .result-box::-webkit-scrollbar-thumb {
+            background: var(--primary-light);
+            border-radius: 4px;
+        }
+        
+        .result-box::-webkit-scrollbar-thumb:hover {
+            background: var(--primary);
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            text-align: center;
+        }
+        
+        .btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(154, 205, 50, 0.3);
+        }
+        
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary-dark);
+            margin-left: 10px;
+        }
+        
+        .btn-outline:hover {
+            background: var(--primary-light);
+            color: var(--dark);
+        }
+        
+        .actions {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+        
+        .highlight {
+            background-color: rgba(154, 205, 50, 0.2);
+            padding: 2px 4px;
+            border-radius: 4px;
+        }
+        
+        .typing-animation {
+            border-right: 2px solid var(--primary);
+            animation: blink 1s step-end infinite;
+            padding-right: 2px;
+        }
+        
+        @keyframes blink {
+            from, to { border-color: transparent; }
+            50% { border-color: var(--primary); }
+        }
+        
+        .loading-dots {
+            display: inline-block;
+        }
+        
+        .loading-dots::after {
+            content: '';
+            animation: dots 1.5s infinite;
+        }
+        
+        @keyframes dots {
+            0%, 20% { content: '.'; }
+            40% { content: '..'; }
+            60%, 100% { content: '...'; }
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                border-radius: 8px;
+            }
+            
+            .header {
+                padding: 20px;
+            }
+            
+            .result-container {
+                padding: 20px;
+            }
+            
+            .actions {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>辯論結果</h1>
+        </div>
+        
+        <div class="dynamic-message">
+            <div class="message-content">
+                <span class="message-icon">🔍</span>
+                <span>AI 已完成辯論分析 — 基於新式奧勒岡制的論證評估 — 點擊下方「下載報告」可獲取完整分析結果 — 感謝使用 PDF AI 辯論系統</span>
+            </div>
+        </div>
+        
+        <div class="result-container">
+            <div class="result-box" id="resultBox">{{ result }}</div>
+            
+            <div class="actions">
+                <a href="/" class="btn">回首頁</a>
+                <button class="btn btn-outline" id="downloadBtn">下載報告</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 模擬打字效果
+        document.addEventListener('DOMContentLoaded', function() {
+            const resultBox = document.getElementById('resultBox');
+            const originalText = resultBox.textContent;
+            
+            // 如果有內容才執行打字效果
+            if (originalText.trim()) {
+                resultBox.textContent = '';
+                let i = 0;
+                
+                function typeWriter() {
+                    if (i < originalText.length) {
+                        resultBox.textContent += originalText.charAt(i);
+                        i++;
+                        
+                        // 根據字符調整速度，標點符號停頓久一點
+                        const speed = [',', '.', '!', '?', '；', '。', '！', '？'].includes(originalText.charAt(i-1)) 
+                            ? 100 : 20;
+                        
+                        setTimeout(typeWriter, speed);
+                        
+                        // 自動滾動到底部
+                        resultBox.scrollTop = resultBox.scrollHeight;
+                    }
+                }
+                
+                // 開始打字效果
+                setTimeout(typeWriter, 500);
+            }
+        });
+        
+        // 下載報告功能
+        document.getElementById('downloadBtn').addEventListener('click', function() {
+            const resultText = document.getElementById('resultBox').textContent;
+            const blob = new Blob([resultText], { type: 'text/plain;charset=utf-8' });
+            
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = '辯論分析報告.txt';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            
+            // 顯示下載成功提示
+            alert('報告已成功下載！');
+        });
+        
+        // 為了更好的動畫效果，複製滾動消息內容
+        document.addEventListener('DOMContentLoaded', function() {
+            const messageContent = document.querySelector('.message-content');
+            const originalContent = messageContent.innerHTML;
+            
+            // 複製幾次內容以確保滾動效果順暢
+            for (let i = 0; i < 3; i++) {
+                messageContent.innerHTML += originalContent;
+            }
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'940984eb611c4aa0',t:'MTc0NzM4NDI5MS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF AI 辯論系統</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #9acd32; /* Yellow-green */
+            --primary-light: #c1e065;
+            --primary-dark: #789e25;
+            --accent: #556b2f; /* Darker yellow-green */
+            --light: #f8ffe6;
+            --dark: #2c3e0e;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 600px;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .header h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        
+        .header p {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        
+        .form-container {
+            padding: 30px;
+        }
+        
+        .form-group {
+            margin-bottom: 24px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--dark);
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+        
+        .form-control:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(154, 205, 50, 0.2);
+        }
+        
+        .file-upload {
+            position: relative;
+            display: flex;
+            align-items: center;
+            background-color: #f9f9f9;
+            border: 2px dashed var(--primary-light);
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .file-upload:hover {
+            background-color: #f0f7e6;
+        }
+        
+        .file-upload input[type="file"] {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            cursor: pointer;
+        }
+        
+        .file-upload-icon {
+            font-size: 24px;
+            margin-right: 15px;
+            color: var(--primary);
+        }
+        
+        .file-upload-text {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .file-upload-text span {
+            display: block;
+        }
+        
+        .file-name {
+            font-size: 14px;
+            color: #666;
+            margin-top: 4px;
+        }
+        
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+        }
+        
+        .checkbox-container input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+            accent-color: var(--primary);
+        }
+        
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 14px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+        }
+        
+        .btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(154, 205, 50, 0.3);
+        }
+        
+        .rounds-container {
+            display: flex;
+            align-items: center;
+        }
+        
+        .rounds-input {
+            width: 80px;
+            text-align: center;
+        }
+        
+        .rounds-controls {
+            display: flex;
+            margin-left: 10px;
+        }
+        
+        .rounds-btn {
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--primary-light);
+            border: none;
+            border-radius: 4px;
+            font-size: 18px;
+            cursor: pointer;
+            margin: 0 2px;
+            color: white;
+        }
+        
+        .rounds-btn:hover {
+            background: var(--primary);
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                border-radius: 8px;
+            }
+            
+            .header {
+                padding: 20px;
+            }
+            
+            .form-container {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>PDF AI 辯論系統</h1>
+            <p>基於新式奧勒岡制的智能辯論分析工具</p>
+        </div>
+        
+        <div class="form-container">
+            <form method="POST" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="pdf_file">上傳 PDF 檔案</label>
+                    <div class="file-upload" id="fileUploadContainer">
+                        <div class="file-upload-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                <polyline points="14 2 14 8 20 8"></polyline>
+                                <line x1="12" y1="18" x2="12" y2="12"></line>
+                                <line x1="9" y1="15" x2="15" y2="15"></line>
+                            </svg>
+                        </div>
+                        <div class="file-upload-text">
+                            <span>點擊或拖曳檔案至此處</span>
+                            <span class="file-name" id="fileName">尚未選擇檔案</span>
+                        </div>
+                        <input type="file" name="pdf_file" id="pdfFile" accept=".pdf" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="topic">辯論主題</label>
+                    <input type="text" id="topic" name="topic" class="form-control" value="這篇文章的論證結構是否嚴謹？" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="rounds">辯論輪數</label>
+                    <div class="rounds-container">
+                        <input type="number" id="rounds" name="rounds" class="form-control rounds-input" min="1" max="5" value="3" required>
+                        <div class="rounds-controls">
+                            <button type="button" class="rounds-btn" id="decreaseRounds">-</button>
+                            <button type="button" class="rounds-btn" id="increaseRounds">+</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <div class="checkbox-container">
+                        <input type="checkbox" id="use_theory" name="use_theory">
+                        <label for="use_theory">引用新式奧勒岡制理論作為輔助</label>
+                    </div>
+                </div>
+                
+                <button type="submit" class="btn">開始辯論</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // 處理檔案上傳顯示
+        const pdfFile = document.getElementById('pdfFile');
+        const fileName = document.getElementById('fileName');
+        const fileUploadContainer = document.getElementById('fileUploadContainer');
+        
+        pdfFile.addEventListener('change', function() {
+            if (this.files.length > 0) {
+                fileName.textContent = this.files[0].name;
+                fileUploadContainer.style.borderColor = '#9acd32';
+            } else {
+                fileName.textContent = '尚未選擇檔案';
+                fileUploadContainer.style.borderColor = '';
+            }
+        });
+        
+        // 處理輪數增減
+        const roundsInput = document.getElementById('rounds');
+        const decreaseRounds = document.getElementById('decreaseRounds');
+        const increaseRounds = document.getElementById('increaseRounds');
+        
+        decreaseRounds.addEventListener('click', function() {
+            if (roundsInput.value > 1) {
+                roundsInput.value = parseInt(roundsInput.value) - 1;
+            }
+        });
+        
+        increaseRounds.addEventListener('click', function() {
+            if (roundsInput.value < 5) {
+                roundsInput.value = parseInt(roundsInput.value) + 1;
+            }
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'940980b7532d8098',t:'MTc0NzM4NDExOS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
