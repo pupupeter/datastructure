@@ -19,19 +19,16 @@ Final project:
 This system utilizes AutoGen and SmolEAgent to implement AI professor debates, incorporating PDF RAG (Retrieval-Augmented Generation) and Web search to enhance knowledge sources, ensuring efficiency and accuracy in the debate process.
 
 ## 2. Key Components
-### 2.1 AutoGen
-- **Multi-Agent System**: Allows multiple AI agents to take on roles such as professor, student, and judge.
-- **Task Adaptation**: Dynamically adjusts the agents' behavior based on the debate topic.
 
-### 2.2 SmolEAgent
+### 2.1 SmolEAgent
 - **Lightweight AI Agent**: Suitable for embedded environments and works collaboratively with AutoGen.
 - **Modular Design**: Allows for adding different reasoning capabilities as needed.
 
-### 2.3 PDF RAG
+### 2.2 PDF RAG
 - **Document Retrieval**: Enables AI agents to query relevant content from academic PDFs.
 - **Context Enhancement**: Uses retrieved content to supplement AI-generated responses.
 
-### 2.4 Web Search
+### 2.3 Web Search
 - **Real-Time Information Retrieval**: Ensures that AI agents base their arguments on the latest knowledge.
 - **Result Filtering**: Avoids misinformation or inaccurate data affecting the debate.
 
