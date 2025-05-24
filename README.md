@@ -13,6 +13,10 @@ Midterm2:https://youtu.be/AMGhJTg5nto
 
 Final project:
 
+https://youtu.be/v94G0bUrNU4
+
+
+
 # AI Professor Debate System (Based on AutoGen/SmolEAgent)
 
 ## 1. Introduction
